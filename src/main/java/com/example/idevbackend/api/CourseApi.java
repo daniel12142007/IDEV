@@ -2,6 +2,7 @@ package com.example.idevbackend.api;
 
 import com.example.idevbackend.models.enums.Language;
 import com.example.idevbackend.payload.request.CourseRequest;
+import com.example.idevbackend.payload.request.CourseUpdateRequest;
 import com.example.idevbackend.payload.response.CourseResponse;
 import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.services.CourseService;
@@ -19,21 +20,21 @@ public class CourseApi {
     private final CourseService courseService;
 
     @PostMapping("save")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Создание нового курса", description = "Добавление нового курса в систему с указанием названия, описания и языка")
     public CourseResponse saveCourse(@RequestBody CourseRequest courseRequest) {
         return courseService.saveCourse(courseRequest);
     }
 
     @PutMapping("update/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Обновление существующего курса", description = "Обновление информации о курсе по идентификатору")
-    public CourseResponse updateCourse(@PathVariable Long id, @RequestBody CourseRequest courseRequest) {
+    public CourseResponse updateCourse(@PathVariable Long id, @RequestBody CourseUpdateRequest courseRequest) {
         return courseService.updateCourse(id, courseRequest);
     }
 
     @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Удаление курса", description = "Удаление курса по идентификатору")
     public MessageResponse deleteCourse(@PathVariable Long id) {
         return courseService.deleteCourse(id);

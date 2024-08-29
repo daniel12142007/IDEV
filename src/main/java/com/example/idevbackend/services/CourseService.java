@@ -4,6 +4,7 @@ import com.example.idevbackend.exceptions.NotFoundException;
 import com.example.idevbackend.models.Course;
 import com.example.idevbackend.models.enums.Language;
 import com.example.idevbackend.payload.request.CourseRequest;
+import com.example.idevbackend.payload.request.CourseUpdateRequest;
 import com.example.idevbackend.payload.response.CourseResponse;
 import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.repositories.CourseRepository;
@@ -39,7 +40,7 @@ public class CourseService {
         return findById(course.getId());
     }
 
-    public CourseResponse updateCourse(Long id, CourseRequest courseRequest) {
+    public CourseResponse updateCourse(Long id, CourseUpdateRequest courseRequest) {
         log.info("Обновление курса с ID: {}", id);
 
         if (courseRepository.existsByTitleAndIdNot(courseRequest.title(), id)) {
@@ -56,7 +57,6 @@ public class CourseService {
                 .id(course.getId())
                 .title(courseRequest.title())
                 .description(courseRequest.description())
-                .language(courseRequest.language())
                 .build();
 
         courseRepository.save(course);

@@ -23,7 +23,7 @@ public class Course {
     private String description;
     @Enumerated(EnumType.STRING)
     private Language language;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private Set<Subject> subjects;
     @ManyToMany(mappedBy = "courses")
     private Set<Employee> employees;
