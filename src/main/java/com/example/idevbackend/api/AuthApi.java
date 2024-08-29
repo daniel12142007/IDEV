@@ -1,9 +1,7 @@
-package com.example.idevbackend.controllers;
+package com.example.idevbackend.api;
 
 import com.example.idevbackend.payload.request.LoginRequest;
 import com.example.idevbackend.payload.request.SignUpRequest;
-import com.example.idevbackend.payload.response.MessageResponse;
-import com.example.idevbackend.payload.response.UserResponse;
 import com.example.idevbackend.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/auth")
 @PreAuthorize("permitAll()")
-public class AuthController {
+public class AuthApi {
     @Autowired
     private UserService userService;
 
