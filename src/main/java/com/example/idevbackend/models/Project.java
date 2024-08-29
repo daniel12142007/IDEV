@@ -1,5 +1,6 @@
 package com.example.idevbackend.models;
 
+import com.example.idevbackend.models.enums.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,6 @@ public class Project {
     private String link;
     @Column(length = 900)
     private String description;
+    @Enumerated(EnumType.STRING)
+    private Language language;
 }

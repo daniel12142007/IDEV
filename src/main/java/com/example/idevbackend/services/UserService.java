@@ -56,7 +56,7 @@ public class UserService {
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setRole(ERole.ROLE_ADMIN);
+        newUser.setRole(ERole.ADMIN);
 
         try {
             LOGGER.info("Сохранение нового пользователя с email: {}", user.getEmail());

@@ -36,15 +36,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private ERole role;
 
-    @Transient
-    private Collection<? extends GrantedAuthority> authorities;
-
-    public User(String email, String password, ERole role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(this.role);

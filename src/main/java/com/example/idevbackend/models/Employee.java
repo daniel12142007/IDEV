@@ -1,5 +1,6 @@
 package com.example.idevbackend.models;
 
+import com.example.idevbackend.models.enums.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class Employee {
     private String fullName;
     private String image;
     private String linkLinkedIn;
+    @Enumerated(EnumType.STRING)
+    private Language language;
     @ManyToMany
     @JoinTable(name = "employee_direction",
             joinColumns = @JoinColumn(name = "employee_id"),

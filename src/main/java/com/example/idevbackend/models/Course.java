@@ -1,5 +1,6 @@
 package com.example.idevbackend.models;
 
+import com.example.idevbackend.models.enums.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class Course {
     private String title;
     @Column(length = 900)
     private String description;
+    @Enumerated(EnumType.STRING)
+    private Language language;
     @OneToMany(mappedBy = "course")
     private Set<Subject> subjects;
     @ManyToMany(mappedBy = "courses")
