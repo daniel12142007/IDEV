@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    boolean existsByTitle(String title);
+    boolean existsByTitleAndLanguage(String title, Language language);
 
-    boolean existsByTitleAndIdNot(String title, Long id);
+    boolean existsByTitleAndIdNotAndLanguage(String title, Long id, Language language);
 
     @Query("""
             select new com.example.idevbackend.payload.response.CourseResponse(
