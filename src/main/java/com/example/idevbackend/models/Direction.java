@@ -19,6 +19,6 @@ public class Direction {
     private String title;
     @Enumerated(EnumType.STRING)
     private Language language;
-    @ManyToMany(mappedBy = "directions")
+    @OneToMany(mappedBy = "directions")
     private Set<Employee> employees;
 }
