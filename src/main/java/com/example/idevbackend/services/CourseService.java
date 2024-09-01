@@ -23,7 +23,7 @@ public class CourseService {
     public CourseResponse saveCourse(CourseRequest courseRequest) {
         log.info("Сохранение курса с названием: {}", courseRequest.title());
 
-        if (courseRepository.existsByTitle(courseRequest.title())) {
+        if (courseRepository.existsByTitleAndLanguage(courseRequest.title(), courseRequest.language())) {
             log.error("Курс с названием '{}' уже существует", courseRequest.title());
             throw new IllegalArgumentException("Course title already exists");
         }
@@ -43,15 +43,15 @@ public class CourseService {
     public CourseResponse updateCourse(Long id, CourseUpdateRequest courseRequest) {
         log.info("Обновление курса с ID: {}", id);
 
-        if (courseRepository.existsByTitleAndIdNot(courseRequest.title(), id)) {
-            log.error("Курс с названием '{}' уже существует для другого ID", courseRequest.title());
-            throw new IllegalArgumentException("Course title already exists");
-        }
-
         Course course = courseRepository.findById(id).orElseThrow(() -> {
             log.error("Курс с ID: {} не найден", id);
             return new NotFoundException("Not found course ID: " + id);
         });
+
+        if (courseRepository.existsByTitleAndIdNotAndLanguage(courseRequest.title(), id, course.getLanguage())) {
+            log.error("Курс с названием '{}' уже существует для другого ID", courseRequest.title());
+            throw new IllegalArgumentException("Course title already exists");
+        }
 
         course = Course.builder()
                 .id(course.getId())
