@@ -17,7 +17,7 @@ public interface DiplomaRepository extends JpaRepository<Diploma, Long> {
             d.course.id
             ) from Diploma d
             where d.course.id = :courseId
-            order by d.id desc
+            order by d.id
             """)
     List<DiplomaResponse> findAllResponseByCourseId(@Param("courseId") Long courseId);
 }

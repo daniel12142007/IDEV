@@ -17,8 +17,6 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Enumerated(EnumType.STRING)
-    private Language language;
     @ManyToMany(mappedBy = "directions")
     private Set<Employee> employees;
 }
