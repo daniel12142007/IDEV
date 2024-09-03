@@ -1,7 +1,7 @@
 -- add users
 -- password=strings
-insert into users(email, password)
-values ('string@gmail.com', '$2a$10$l3/OyHy.gPD7s4f98PVQ8Obg/CfKxeifY2kxrkoHnow6GTa7HOg6G');
+insert into users(email, role, password)
+values ('string@gmail.com', 'ADMIN', '$2a$10$l3/OyHy.gPD7s4f98PVQ8Obg/CfKxeifY2kxrkoHnow6GTa7HOg6G');
 -- add courses
 insert into course(title, description, language)
 values
