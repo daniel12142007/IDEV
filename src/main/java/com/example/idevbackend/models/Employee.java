@@ -19,8 +19,6 @@ public class Employee {
     private String fullName;
     private String image;
     private String linkLinkedIn;
-    @Enumerated(EnumType.STRING)
-    private Language language;
     @ManyToMany
     @JoinTable(name = "employee_direction",
             joinColumns = @JoinColumn(name = "employee_id"),
