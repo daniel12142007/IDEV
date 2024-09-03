@@ -22,14 +22,13 @@ public class DirectionService {
     public DirectionResponse saveDirection(DirectionRequest directionRequest) {
         log.info("Сохранение направления с названием: {}", directionRequest.title());
 
-        if (directionRepository.existsByTitleAndLanguage(directionRequest.title(), directionRequest.language())) {
+        if (directionRepository.existsByTitle(directionRequest.title())) {
             log.error("Направление с названием '{}' уже существует", directionRequest.title());
             throw new IllegalArgumentException("Direction title already exists");
         }
 
         Direction direction = Direction.builder()
                 .title(directionRequest.title())
-                .language(directionRequest.language())
                 .build();
 
         directionRepository.save(direction);
@@ -46,7 +45,7 @@ public class DirectionService {
             return new NotFoundException("Not found direction ID: " + id);
         });
 
-        if (directionRepository.existsByTitleAndIdNotAndLanguage(title, id, direction.getLanguage())) {
+        if (directionRepository.existsByTitleAndIdNot(title, id)) {
             log.error("Направление с названием '{}' уже существует для другого ID", title);
             throw new IllegalArgumentException("Direction title already exists");
         }
@@ -54,7 +53,6 @@ public class DirectionService {
         direction = Direction.builder()
                 .id(direction.getId())
                 .title(title)
-                .language(direction.getLanguage())
                 .build();
 
         directionRepository.save(direction);
@@ -86,14 +84,14 @@ public class DirectionService {
         });
 
         log.info("Направление с ID: {} найдено", id);
-        return new DirectionResponse(direction.getId(), direction.getTitle(), direction.getLanguage());
+        return new DirectionResponse(direction.getId(), direction.getTitle());
     }
 
-    public List<DirectionResponse> findAll(Language language) {
-        log.info("Поиск всех направлений с языком: {}", language);
+    public List<DirectionResponse> findAll() {
+        log.info("Вывод всех направлений");
 
-        List<DirectionResponse> directions = directionRepository.findAllResponseByLanguage(language);
-        log.info("Найдено {} направлений с языком: {}", directions.size(), language);
+        List<DirectionResponse> directions = directionRepository.findAllResponseByLanguage();
+        log.info("Найдено {} направлений", directions.size());
 
         return directions;
     }

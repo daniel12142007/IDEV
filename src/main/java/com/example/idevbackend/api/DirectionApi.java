@@ -21,7 +21,7 @@ public class DirectionApi {
     @PostMapping("save")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Создание нового направления",
-            description = "Добавление нового направления в систему с указанием названия и языка")
+            description = "Добавление нового направления в систему с указанием названия")
     public DirectionResponse saveDirection(@RequestBody DirectionRequest directionRequest) {
         return directionService.saveDirection(directionRequest);
     }
@@ -50,9 +50,9 @@ public class DirectionApi {
     }
 
     @GetMapping("find/all")
-    @Operation(summary = "Получение всех направлений по языку",
-            description = "Получение списка всех направлений, фильтрованных по языку")
-    public List<DirectionResponse> findAll(@RequestParam Language language) {
-        return directionService.findAll(language);
+    @Operation(summary = "Получение всех направлений ",
+            description = "Получение списка всех направлений")
+    public List<DirectionResponse> findAll() {
+        return directionService.findAll();
     }
 }
