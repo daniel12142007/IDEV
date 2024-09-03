@@ -1,6 +1,5 @@
 package com.example.idevbackend.models;
 
-import com.example.idevbackend.models.enums.Language;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,11 +18,9 @@ public class Employee {
     private String fullName;
     private String image;
     private String linkLinkedIn;
-    @ManyToMany
-    @JoinTable(name = "employee_direction",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "direction_id"))
-    private Set<Direction> directions;
+    @ManyToOne
+    @JoinColumn(name = "direction_id")
+    private Direction direction;
     @ManyToMany
     @JoinTable(name = "employee_course",
             joinColumns = @JoinColumn(name = "employee_id"),

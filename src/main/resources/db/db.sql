@@ -178,18 +178,18 @@ values ('BAITIK LUX',
         'KYRGYZSTAN',
         'https://');
 -- add employees
-insert into employee(full_name, link_linked_in)
-values ('Иван Иванов', 'https://www.linkedin.com/in/ivan-ivanov'),
-       ('Мария Петрова', 'https://www.linkedin.com/in/maria-petrova'),
+insert into employee(full_name, link_linked_in, direction_id)
+values ('Иван Иванов', 'https://www.linkedin.com/in/ivan-ivanov', 1),
+       ('Мария Петрова', 'https://www.linkedin.com/in/maria-petrova', 1),
 
-       ('Алексей Смирнов', 'https://www.linkedin.com/in/alexey-smirnov'),
-       ('Ольга Кузнецова', 'https://www.linkedin.com/in/olga-kuznetsova'),
+       ('Алексей Смирнов', 'https://www.linkedin.com/in/alexey-smirnov', 2),
+       ('Ольга Кузнецова', 'https://www.linkedin.com/in/olga-kuznetsova', 2),
 
-       ('Дмитрий Соколов', 'https://www.linkedin.com/in/dmitry-sokolov'),
-       ('Екатерина Иванова', 'https://www.linkedin.com/in/ekaterina-ivanova'),
+       ('Дмитрий Соколов', 'https://www.linkedin.com/in/dmitry-sokolov', 3),
+       ('Екатерина Иванова', 'https://www.linkedin.com/in/ekaterina-ivanova', 3),
 
-       ('Андрей Попов', 'https://www.linkedin.com/in/andrey-popov'),
-       ('Анна Васильева', 'https://www.linkedin.com/in/anna-vasilyeva');
+       ('Андрей Попов', 'https://www.linkedin.com/in/andrey-popov', 4),
+       ('Анна Васильева', 'https://www.linkedin.com/in/anna-vasilyeva', 4);
 -- add relationship for employee_course
 insert into employee_course(employee_id, course_id)
 values (1, 1),
@@ -200,13 +200,3 @@ values (1, 1),
        (6, 7),
        (7, 4),
        (8, 8);
--- add relationship for employee_direction
-insert into employee_direction(employee_id, direction_id)
-values (1, 1),
-       (2, 1),
-       (3, 2),
-       (4, 2),
-       (5, 3),
-       (6, 3),
-       (7, 4),
-       (8, 4);

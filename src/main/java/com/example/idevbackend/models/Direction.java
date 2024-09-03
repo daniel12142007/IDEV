@@ -1,6 +1,5 @@
 package com.example.idevbackend.models;
 
-import com.example.idevbackend.models.enums.Language;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +16,6 @@ public class Direction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @ManyToMany(mappedBy = "directions")
+    @OneToMany(mappedBy = "direction")
     private Set<Employee> employees;
 }

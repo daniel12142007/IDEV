@@ -2,11 +2,11 @@ package com.example.idevbackend.services;
 
 import com.example.idevbackend.exceptions.NotFoundException;
 import com.example.idevbackend.models.Direction;
-import com.example.idevbackend.models.enums.Language;
 import com.example.idevbackend.payload.request.DirectionRequest;
 import com.example.idevbackend.payload.response.DirectionResponse;
 import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.repositories.DirectionRepository;
+import com.example.idevbackend.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,7 @@ import java.util.List;
 @Slf4j
 public class DirectionService {
     private final DirectionRepository directionRepository;
+    private final EmployeeRepository employeeRepository;
 
     public DirectionResponse saveDirection(DirectionRequest directionRequest) {
         log.info("Сохранение направления с названием: {}", directionRequest.title());
@@ -68,6 +69,14 @@ public class DirectionService {
             log.error("Направление с ID: {} не найдено", id);
             return new NotFoundException("Not found direction ID: " + id);
         });
+
+        log.info("Удаление связок между сотрудником и работником");
+        employeeRepository.findAllByDirection(direction).forEach(
+                employee -> {
+                    employee.setDirection(null);
+                    employeeRepository.save(employee);
+                }
+        );
 
         directionRepository.delete(direction);
         log.info("Направление с ID: {} успешно удалено", id);

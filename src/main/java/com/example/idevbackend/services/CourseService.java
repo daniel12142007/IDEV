@@ -8,6 +8,7 @@ import com.example.idevbackend.payload.request.CourseUpdateRequest;
 import com.example.idevbackend.payload.response.CourseResponse;
 import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.repositories.CourseRepository;
+import com.example.idevbackend.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final EmployeeRepository employeeRepository;
 
     public CourseResponse saveCourse(CourseRequest courseRequest) {
         log.info("Сохранение курса с названием: {}", courseRequest.title());
@@ -73,6 +75,13 @@ public class CourseService {
             return new NotFoundException("Not found course ID: " + id);
         });
 
+        log.info("Удаление связок с сотрудником");
+        employeeRepository.findAllByCourse(course).forEach(
+                employee -> {
+                    employee.getCourses().remove(course);
+                    employeeRepository.save(employee);
+                }
+        );
         courseRepository.delete(course);
         log.info("Курс с ID: {} успешно удален", id);
 
