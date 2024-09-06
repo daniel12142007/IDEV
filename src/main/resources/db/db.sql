@@ -123,18 +123,21 @@ values ('Java', 'RUSSIAN', 1),
        ('REDUX', 'KYRGYZSTAN', 7),
        ('REDUX-TOOLKIT', 'KYRGYZSTAN', 7),
        ('MATERIAL-UI', 'KYRGYZSTAN', 7),
-       ('Веб - верстка', 'RUSSIAN', 4),
-       ('JavaScript', 'RUSSIAN', 4),
-       ('React JS', 'RUSSIAN', 4),
-       ('Веб - верстка', 'KYRGYZSTAN', 8),
-       ('JavaScript', 'KYRGYZSTAN', 8),
-       ('React JS', 'KYRGYZSTAN', 8);
+       ('Основы дизайна', 'RUSSIAN', 4),
+       ('Инструменты для дизайна', 'RUSSIAN', 4),
+       ('UX', 'RUSSIAN', 4),
+       ('UI', 'RUSSIAN', 4),
+       ('HTML-CSS', 'RUSSIAN', 4),
+       ('Аналитика и оптимизация', 'RUSSIAN', 4),
+       ('Дизайн негиздери', 'KYRGYZSTAN', 8),
+       ('Дизайн куралдары', 'KYRGYZSTAN', 8),
+       ('UX', 'KYRGYZSTAN', 8),
+       ('UI', 'KYRGYZSTAN', 8),
+       ('HTML-CSS', 'KYRGYZSTAN', 8),
+       ('Аналитика жана оптималдаштыруу', 'KYRGYZSTAN', 8);
 -- add directions
 insert into direction(title)
-values ('Java'),
-       ('Python'),
-       ('Front-End'),
-       ('UX/UI Designer');;
+values ('Java'), ('Python'), ('Front-End'), ('UX/UI Designer');;
 -- add projects
 insert into project(title, description, language, link)
 values ('BAITIK LUX',
