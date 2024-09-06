@@ -3,7 +3,6 @@ package com.example.idevbackend.services;
 import com.example.idevbackend.exceptions.NotFoundException;
 import com.example.idevbackend.models.Course;
 import com.example.idevbackend.models.Subject;
-import com.example.idevbackend.payload.request.SubjectRequest;
 import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.payload.response.SubjectResponse;
 import com.example.idevbackend.repositories.CourseRepository;
@@ -11,6 +10,7 @@ import com.example.idevbackend.repositories.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,8 +20,11 @@ import java.util.List;
 public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final CourseRepository courseRepository;
+    private final S3FileService s3FileService;
 
-    public SubjectResponse save(Long courseId, SubjectRequest request) {
+    public SubjectResponse save(Long courseId,
+                                String title,
+                                MultipartFile image) {
         log.info("Сохранение Subject для Course с ID: {}", courseId);
         Course course = courseRepository.findById(courseId).orElseThrow(() -> {
             log.error("Course с ID {} не найден", courseId);
@@ -29,18 +32,17 @@ public class SubjectService {
         });
 
         Subject subject = Subject.builder()
-                .image(request.image())
-                .title(request.title())
+                .title(title)
                 .language(course.getLanguage())
                 .course(course)
                 .build();
-
+        subject.setImage(s3FileService.saveImage(image));
         subjectRepository.save(subject);
         log.info("Subject с ID: {} успешно сохранен", subject.getId());
         return findById(subject.getId());
     }
 
-    public SubjectResponse update(Long subjectId, SubjectRequest request) {
+    public SubjectResponse update(Long subjectId, String title, MultipartFile image) {
         log.info("Обновление Subject с ID: {}", subjectId);
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> {
             log.error("Subject с ID {} не найден", subjectId);
@@ -48,12 +50,13 @@ public class SubjectService {
         });
 
         subject = Subject.builder()
-                .image(request.image())
-                .title(request.title())
+                .id(subjectId)
+                .title(title)
                 .language(subject.getLanguage())
                 .course(subject.getCourse())
                 .build();
 
+        subject.setImage(s3FileService.saveImage(image));
         subjectRepository.save(subject);
         log.info("Subject с ID: {} успешно обновлен", subjectId);
         return findById(subjectId);

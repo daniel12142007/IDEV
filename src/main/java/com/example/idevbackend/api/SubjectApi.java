@@ -6,9 +6,12 @@ import com.example.idevbackend.payload.response.SubjectResponse;
 import com.example.idevbackend.services.SubjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -17,20 +20,28 @@ import java.util.List;
 public class SubjectApi {
     private final SubjectService subjectService;
 
-    @PostMapping("save/{courseId}")
+    @PostMapping(value = "save/{courseId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Сохранение Subject",
             description = "Сохраняет новый Subject для заданного курса")
-    public SubjectResponse saveSubject(@PathVariable Long courseId, @RequestBody SubjectRequest request) {
-        return subjectService.save(courseId, request);
+    public SubjectResponse saveSubject(@PathVariable Long courseId,
+                                       @RequestPart MultipartFile image,
+                                       @RequestParam
+                                       @NotBlank(message = "Title cannot be empty or null")
+                                       String title) {
+        return subjectService.save(courseId, title, image);
     }
 
-    @PutMapping("update/{subjectId}")
+    @PutMapping(value = "update/{subjectId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @Operation(summary = "Обновление Subject",
             description = "Обновляет существующий Subject по его ID")
-    public SubjectResponse updateSubject(@PathVariable Long subjectId, @RequestBody SubjectRequest request) {
-        return subjectService.update(subjectId, request);
+    public SubjectResponse updateSubject(@PathVariable Long subjectId,
+                                         @RequestPart MultipartFile image,
+                                         @RequestParam
+                                         @NotBlank(message = "Title cannot be empty or null")
+                                         String title) {
+        return subjectService.update(subjectId, title, image);
     }
 
     @DeleteMapping("delete/{subjectId}")

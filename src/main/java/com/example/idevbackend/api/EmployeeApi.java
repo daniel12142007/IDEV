@@ -6,8 +6,10 @@ import com.example.idevbackend.payload.response.MessageResponse;
 import com.example.idevbackend.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -42,6 +44,17 @@ public class EmployeeApi {
                                            @RequestBody EmployeeRequest employeeRequest,
                                            @PathVariable Long directionId) {
         return employeeService.updateEmployee(id, employeeRequest, directionId);
+    }
+
+    @PutMapping(value = "add/image/{employeeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @Operation(
+            summary = "Сохранение изображние для работника",
+            description = "Сохраняет изображения уже существуещему пользователю"
+    )
+    public EmployeeResponse addImage(@PathVariable Long employeeId,
+                                     @RequestPart MultipartFile image) {
+        return employeeService.addImage(employeeId, image);
     }
 
     @DeleteMapping("delete/{id}")
