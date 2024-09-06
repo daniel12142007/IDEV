@@ -27,6 +27,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String image;
+
     @Column(unique = true)
     private String email;
 

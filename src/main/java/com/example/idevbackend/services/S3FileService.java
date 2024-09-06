@@ -1,5 +1,7 @@
 package com.example.idevbackend.services;
 
+import com.example.idevbackend.exceptions.AwsException;
+import com.example.idevbackend.models.Subject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class S3FileService {
 
     @Value("${aws.s3.bucketName}")
     private String bucketName;
+    @Value("${s3.viewImage}")
+    private String linkViewImage;
 
     public String upload(MultipartFile file) throws IOException {
         log.info("Uploading file ...");
@@ -43,6 +47,19 @@ public class S3FileService {
         s3.putObject(por, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
         log.info("Upload complete.");
         return key;
+    }
+
+    public String saveImage(MultipartFile image) {
+        String linkImage = "";
+        try {
+            linkImage = linkViewImage + upload(image);
+        } catch (Exception e) {
+            throw new AwsException("An error occurred when trying to save the image.");
+        }
+        if (linkImage.isEmpty()) {
+            throw new AwsException("Failed to save image");
+        }
+        return linkImage;
     }
 
     public Map<String, String> delete(String fileName) {

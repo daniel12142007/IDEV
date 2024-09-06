@@ -13,6 +13,7 @@ import com.example.idevbackend.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final DirectionRepository directionRepository;
     private final CourseRepository courseRepository;
+    private final S3FileService s3FileService;
 
     public EmployeeResponse saveEmployee(EmployeeRequest employeeRequest, Long directionId) {
         log.info("Сохранение сотрудника с именем: {}", employeeRequest.fullName());
@@ -160,12 +162,22 @@ public class EmployeeService {
         Course course = courseRepository.findById(courseId).orElseThrow(
                 () -> new NotFoundException("Not found course")
         );
-        Employee employee = employeeRepository.findById(courseId).orElseThrow(
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(
                 () -> new NotFoundException("Not found employee")
         );
         log.info("Удаляем соеденение сотрудника с ID: {}, с курсом с ID: {}", employeeId, courseId);
         employee.getCourses().remove(course);
         employeeRepository.save(employee);
         return new MessageResponse("Employee deleted with course successfully");
+    }
+
+    public EmployeeResponse addImage(Long employeeId,
+                                     MultipartFile image) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                () -> new NotFoundException("Not found employee")
+        );
+        employee.setImage(s3FileService.saveImage(image));
+        employeeRepository.save(employee);
+        return findById(employeeId);
     }
 }

@@ -68,4 +68,10 @@ public class GlobalExceptionHandler {
     private ResponseEntity<MessageResponse> handlerAccessDenied(AccessDeniedException e) {
         return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(AwsException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    private ResponseEntity<MessageResponse> handlerAccessDenied(AwsException e) {
+        return new ResponseEntity<>(new MessageResponse(e.getMessage()), HttpStatus.EXPECTATION_FAILED);
+    }
 }
